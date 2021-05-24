@@ -15,7 +15,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Another page
         </h1>
 
         <div>
@@ -63,7 +63,7 @@ export default function Home() {
           </p>
         </div>
 
-        <Link href='/another'>another page</Link>
+        <Link href='/'>index page</Link>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

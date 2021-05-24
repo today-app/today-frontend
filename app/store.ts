@@ -1,10 +1,28 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import { Action, ThunkAction, combineReducers, configureStore } from '@reduxjs/toolkit'
+import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 
 import counterReducer from '../features/counter/counterSlice'
 
+const combinedReducer = combineReducers({
+  counter: counterReducer
+})
+
+const reducer = (state, action) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      ...action.payload,
+    }
+    if (state.count.count) nextState.count.count = state.count.count
+    return nextState
+  } else {
+    return combinedReducer(state, action)
+  }
+}
+
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer },
+    reducer: reducer,
   })
 }
 
@@ -21,4 +39,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >
 
-export default store
+export const wrapper = createWrapper(makeStore)

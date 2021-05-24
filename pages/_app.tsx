@@ -1,17 +1,13 @@
 import '../styles/globals.css'
 
-import { FC } from 'react'
-import { Provider } from 'react-redux'
 import { AppProps } from 'next/app'
-
-import store from '../app/store'
+import { FC } from 'react'
+import { wrapper } from 'app/store'
 
 const TodayApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <Component {...pageProps} />
   )
 }
 
-export default TodayApp
+export default wrapper.withRedux(TodayApp)
