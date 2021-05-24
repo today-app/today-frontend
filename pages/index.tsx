@@ -1,3 +1,4 @@
+import Counter from '../features/counter/Counter'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -16,9 +17,50 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing <code className={styles.code}>pages/index.js</code>
-        </p>
+        <div>
+          <Counter />
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <span>
+            <span>Learn </span>
+            <a
+              className={styles.link}
+              href="https://reactjs.org/"
+              target="_blank"
+              rel="noopener noreferrer">
+              React
+            </a>
+            <span>, </span>
+            <a
+              className={styles.link}
+              href="https://redux.js.org/"
+              target="_blank"
+              rel="noopener noreferrer">
+              Redux
+            </a>
+            <span>, </span>
+            <a
+              className={styles.link}
+              href="https://redux-toolkit.js.org/"
+              target="_blank"
+              rel="noopener noreferrer">
+              Redux Toolkit
+            </a>
+            ,<span> and </span>
+            <a
+              className={styles.link}
+              href="https://react-redux.js.org/"
+              target="_blank"
+              rel="noopener noreferrer">
+              React Redux
+            </a>
+          </span>
+
+          <p className={styles.description}>
+            Get started by editing <code className={styles.code}>pages/index.js</code>
+          </p>
+        </div>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

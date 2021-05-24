@@ -1,7 +1,17 @@
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import { FC } from 'react'
+import { Provider } from 'react-redux'
+import { AppProps } from 'next/app'
+
+import store from '../app/store'
+
+const TodayApp: FC<AppProps> = ({ Component, pageProps }) => {
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  )
 }
 
-export default MyApp
+export default TodayApp
