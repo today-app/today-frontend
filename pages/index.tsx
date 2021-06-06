@@ -18,7 +18,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <div>
+        <div className="border p-8 rounded-lg border-gray-200 my-8">
           <Counter />
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
@@ -63,7 +63,7 @@ export default function Home() {
           </p>
         </div>
 
-        <Link href='/another'>another page</Link>
+        <Link href="/another">another page</Link>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
