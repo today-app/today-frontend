@@ -1,0 +1,9 @@
+base_url =
+oauth_redirect_url =
+oauth_authorization_endpoint =
+oauth_token_endpoint =
+oauth_token_revocation_endpoint =
+api_endpoint =
+oauth_client_id =
+oauth_client_secret =
+oauth_scope =

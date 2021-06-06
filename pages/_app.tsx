@@ -1,13 +1,11 @@
+import { wrapper } from 'app/store'
+import { AppProps } from 'next/app'
 import '../styles/globals.css'
 
-import { AppProps } from 'next/app'
-import { FC } from 'react'
-import { wrapper } from 'app/store'
+export interface IAppProps extends AppProps {}
 
-const TodayApp: FC<AppProps> = ({ Component, pageProps }) => {
-  return (
-    <Component {...pageProps} />
-  )
+const TodayApp = ({ Component, pageProps }: IAppProps): JSX.Element => {
+  return <Component {...pageProps} />
 }
 
 export default wrapper.withRedux(TodayApp)
