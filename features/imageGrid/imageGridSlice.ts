@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AppState } from './../../app/store'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ImageGridState, LoadFailPayload, LoadPayload, LoadSuccessPayload } from './types'
 
 const initialState = {
@@ -26,5 +27,22 @@ export const imageGridSlice = createSlice({
   initialState,
   reducers,
 })
+
+const selectAllState = createSelector(
+  (state: ImageGridState) => state.isLoading,
+  (state: ImageGridState) => state.images,
+  (state: ImageGridState) => state.error,
+  (isLoading, images, error) => {
+    return {
+      isLoading,
+      images,
+      error,
+    }
+  },
+)
+
+export const imageGridSelector = {
+  all: (state: AppState) => selectAllState(state[imageGridSlice.name]),
+}
 
 export const { load, loadSuccess, loadFail } = imageGridSlice.actions

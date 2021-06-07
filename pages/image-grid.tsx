@@ -1,13 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { imageGridSelector, load } from 'features/imageGrid/imageGridSlice'
 import { useEffect } from 'react'
-import { load } from 'features/imageGrid/imageGridSlice'
-import { AppState } from 'app/store'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Home() {
   const dispatch = useDispatch()
-  const imageGrid = useSelector((state: AppState) => {
-    return state.imageGrid
-  })
+  const { isLoading, images, error } = useSelector(imageGridSelector.all)
+
   useEffect(() => {
     dispatch(
       load({
@@ -17,16 +15,23 @@ export default function Home() {
     )
   }, [])
 
+  if (isLoading) {
+    return <div>Loading ...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
+  }
+
   return (
-    <>
-      <h3>Unsplash</h3>
-      {imageGrid.images &&
-        imageGrid.images.map((image: any) => (
-          <div key={image.id} className={`item item-${Math.ceil(image.height / image.width)}`}>
-            <img src={image.urls.small} alt={image.user.username} />
+    <div className="container mx-auto px-4 py-4">
+      <div className="flex flex-wrap -mx-4">
+        {images.map((image: any) => (
+          <div key={image.id} className="md:w-1/3 px-4 mb-8">
+            <img className="rounded shadow-md" src={image.urls.small} alt={image.user.username} />
           </div>
         ))}
-      <pre>{JSON.stringify(imageGrid, null, 2)}</pre>
-    </>
+      </div>
+    </div>
   )
 }
