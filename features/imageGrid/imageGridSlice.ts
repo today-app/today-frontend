@@ -1,23 +1,11 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
-
-export interface ImageGridState {
-  isLoading: boolean
-  images: any[]
-  error: any
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ImageGridState, LoadFailPayload, LoadPayload, LoadSuccessPayload } from './types'
 
 const initialState = {
   isLoading: false,
   images: [],
   error: null,
 }
-
-export interface LoadPayload {
-  key: string
-  page?: number
-}
-export type LoadSuccessPayload = any[]
-export type LoadFailPayload = string
 
 const reducers = {
   load: (state: ImageGridState, _payload: PayloadAction<LoadPayload>) => {
@@ -33,10 +21,8 @@ const reducers = {
   },
 }
 
-const name = 'imageGrid'
-
 export const imageGridSlice = createSlice({
-  name,
+  name: 'imageGrid',
   initialState,
   reducers,
 })

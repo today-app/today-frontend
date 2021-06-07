@@ -1,19 +1,14 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { load, loadFail, LoadPayload, loadSuccess } from './imageGridSlice'
-
-const getSplashImage = (page = 20, key = ''): Promise<any[]> => {
-  return fetch(`https://api.unsplash.com/photos/?client_id=${key}&per_page=${page}`)
-    .then(res => res.json())
-    .catch(err => {
-      throw err
-    })
-}
+import { getSplashImage } from './imageGridAPI'
+import { load, loadFail, loadSuccess } from './imageGridSlice'
+import { LoadPayload } from './types'
 
 function* handleImageLoad(action: PayloadAction<LoadPayload>): Generator<any, void, void> {
   const { key, page } = action.payload
   try {
     const images = yield call(getSplashImage, page, key)
+    //@ts-ignore
     yield put(loadSuccess(images))
   } catch (err) {
     yield put(loadFail(err))
