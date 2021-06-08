@@ -4,8 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import WithHeader from '../shared/layouts/WithHeader'
+import { useDispatch } from 'react-redux'
+import { push } from 'connected-next-router'
 
 export default function Home() {
+  const dispatch = useDispatch()
   return (
     <WithHeader>
       <div className={styles.container}>
@@ -66,6 +69,15 @@ export default function Home() {
           </div>
 
           <Link href="/another">another page</Link>
+          <hr />
+          <a
+            href="/another"
+            onClick={e => {
+              e.preventDefault()
+              dispatch(push({ pathname: '/another', query: { foo: 'bar' } }))
+            }}>
+            Push /about
+          </a>
 
           <div className={styles.grid}>
             <a href="https://nextjs.org/docs" className={styles.card}>
