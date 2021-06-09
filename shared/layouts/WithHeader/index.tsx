@@ -3,14 +3,14 @@ import { useAuth } from 'shared/contexts/Auth'
 import Header from '../../../components/Header'
 
 const WithHeader: FC<any> = ({ children }) => {
-  const { isSigned, signInUrl } = useAuth()
+  const { isSigned, signInUrl, data } = useAuth()
 
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <Header />
         <div>
-          <pre>{JSON.stringify({ isSigned, signInUrl }, null, 2)}</pre>
+          <pre>{JSON.stringify({ isSigned, signInUrl, data }, null, 2)}</pre>
           <div>
             <a href={signInUrl}>{signInUrl}</a>
           </div>

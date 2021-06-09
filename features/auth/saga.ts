@@ -8,6 +8,7 @@ import {
   loadAccessTokenFail,
   loadAccessTokenSuccess,
 } from './authSlice'
+import jwt_decode from 'jwt-decode'
 
 export interface TokenResponse {
   access_token: string
@@ -25,7 +26,8 @@ function* handleFetchAccessToken(action: PayloadAction<LoadAccessTokenPayload>) 
   try {
     //@ts-ignore
     const tokenData: TokenResponse = yield call(fetchAccessToken, code)
-    yield put(loadAccessTokenSuccess(tokenData))
+    const idTokenData = jwt_decode(tokenData.id_token)
+    yield put(loadAccessTokenSuccess(idTokenData))
     yield call([localStorage, localStorage.setItem], 'access_token', tokenData.access_token)
     yield call([localStorage, localStorage.setItem], 'refresh_token', tokenData.refresh_token)
   } catch (err) {

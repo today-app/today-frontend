@@ -7,12 +7,14 @@ interface AuthContextState {
   isSigned: boolean
   signInUrl: string
   profile: any
+  data: any
 }
 
 const AuthContext = createContext<AuthContextState>({
   isSigned: false,
   signInUrl: '',
   profile: null,
+  data: null,
 })
 
 interface AppProviderProps {
@@ -23,7 +25,7 @@ interface AppProviderProps {
 export const useAuth = () => useContext(AuthContext)
 
 const AuthProvider: FC<AppProviderProps> = ({ children, config }) => {
-  const { profile } = useSelector((state: AppState) => state.auth)
+  const { profile, data } = useSelector((state: AppState) => state.auth)
 
   const signInUrl = useMemo(() => {
     if (!config) return 'this is a error'
@@ -40,7 +42,7 @@ const AuthProvider: FC<AppProviderProps> = ({ children, config }) => {
   }, [config])
 
   return (
-    <AuthContext.Provider value={{ isSigned: !!profile, signInUrl, profile }}>
+    <AuthContext.Provider value={{ isSigned: !!data, signInUrl, profile, data }}>
       {children}
     </AuthContext.Provider>
   )
