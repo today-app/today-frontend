@@ -1,5 +1,6 @@
 import {
   Action,
+  AnyAction,
   combineReducers,
   configureStore,
   getDefaultMiddleware,
@@ -15,17 +16,20 @@ import { all } from 'redux-saga/effects'
 import counterReducer from '../features/counter/counterSlice'
 import { imageGridSlice } from './../features/imageGrid/imageGridSlice'
 import logger from 'redux-logger'
+import { watchFetchAccessToken } from 'features/auth/saga'
+import { authSlice } from 'features/auth/authSlice'
 
 const combinedReducer = combineReducers({
   counter: counterReducer,
   router: routerReducer,
+  [authSlice.name]: authSlice.reducer,
   [imageGridSlice.name]: imageGridSlice.reducer,
 })
 
 const sagaMiddleware = createSagaMiddleware()
 
 function* rootSaga() {
-  yield all([watchImageLoad()])
+  yield all([watchImageLoad(), watchFetchAccessToken()])
 }
 
 const rootReducer = (state, action) => {
@@ -34,7 +38,10 @@ const rootReducer = (state, action) => {
       ...state,
       ...action.payload,
     }
-    if (state.count.count) nextState.count.count = state.count.count
+    if (state.counter.count) nextState.counter.count = state.counter.count
+    if (typeof window !== 'undefined' && state?.router) {
+      nextState.router = state.router
+    }
     return nextState
   } else {
     return combinedReducer(state, action)

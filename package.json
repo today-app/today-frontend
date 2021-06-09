@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
+    "autoprefixer": "^10.2.6",
     "axios": "^0.21.1",
     "connected-next-router": "^4.0.1",
     "ini": "^2.0.0",

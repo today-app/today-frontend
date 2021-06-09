@@ -8,9 +8,6 @@ declare interface IConfig {
   oauthClientId: string
   oauthClientSecret: string
   oauthScope: string
-  bitmovinPlayerKey: string
-  bitmovinAnalyticsKey: string
-  gaAppId: string
 }
 
 declare interface IPublicConfig {
@@ -19,7 +16,4 @@ declare interface IPublicConfig {
   oauthScope: string
   oauthClientId: string
   apiEndpoint: string
-  gaAppId: string
-  bitmovinPlayerKey: string
-  bitmovinAnalyticsKey: string
 }

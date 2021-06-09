@@ -1,59 +1,41 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { AppState } from '../../app/store'
-import { fetchProfile } from './authAPI'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface AuthState {
-  value: any
-  status: 'idle' | 'loading' | 'failed'
+  isLoading: boolean
+  data: any
+  error: string | null
+}
+
+export interface LoadAccessTokenPayload {
+  code: string
 }
 
 const initialState: AuthState = {
-  value: null,
-  status: 'idle',
+  isLoading: false,
+  data: null,
+  error: null,
 }
 
-export const fetchProfileThunk = createAsyncThunk('auth/fetchProfile', async () => {
-  const response = await fetchProfile()
-  return response.data
-})
+const reducers = {
+  loadAccessToken: (state: AuthState, _payload: any) => {
+    state.isLoading = true
+  },
+  loadAccessTokenSuccess: (state: AuthState, { payload: tokenData }: PayloadAction<any>) => {
+    state.isLoading = false
+    state.data = tokenData
+    console.log({ tokenData })
+  },
+  loadAccessTokenFail: (state: AuthState, { payload }: PayloadAction<any>) => {
+    state.isLoading = false
+  },
+}
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchProfileThunk.pending, state => {
-        state.status = 'loading'
-      })
-      .addCase(fetchProfileThunk.fulfilled, (state, action) => {
-        state.status = 'idle'
-        state.value = action.payload
-      })
-      .addCase(fetchProfileThunk.rejected, (state, action) => {
-        state.status = 'idle'
-        state.value = null
-      })
-  },
+  reducers,
 })
 
-// export const { increment, decrement, incrementByAmount } = authSlice.actions
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectValue = (state: AppState) => state.auth.value
-
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd = (amount: number): AppThunk => (
-//   dispatch,
-//   getState
-// ) => {
-//   const currentValue = selectCount(getState())
-//   if (currentValue % 2 === 1) {
-//     dispatch(incrementByAmount(amount))
-//   }
-// }
-
 export default authSlice.reducer
+
+export const { loadAccessToken, loadAccessTokenSuccess, loadAccessTokenFail } = authSlice.actions
