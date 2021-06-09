@@ -60,12 +60,35 @@ const makeStore: MakeStore = (context: Context) => {
     }
   }
 
+  const isServer = typeof window === 'undefined'
+  if (isServer) {
+    const store = configureStore({
+      reducer: rootReducer,
+      middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
+      preloadedState: initialState,
+    })
+
+    sagaMiddleware.run(rootSaga)
+
+    return store
+  }
+
+  const { persistStore, persistReducer } = require('redux-persist')
+  const storage = require('redux-persist/lib/storage').default
+  const persistConfig = {
+    key: 'todayAppPersistStore',
+    storage,
+    whitelist: ['auth'],
+  }
+  const persistedReducer = persistReducer(persistConfig, rootReducer)
+
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: persistedReducer,
     middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
     preloadedState: initialState,
   })
-
+  // @ts-ignore
+  store.__persistor = persistStore(store)
   sagaMiddleware.run(rootSaga)
 
   return store
