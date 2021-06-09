@@ -8,13 +8,7 @@ const WithHeader: FC<any> = ({ children }) => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <Header />
-        <div>
-          <pre>{JSON.stringify({ isSigned, signInUrl, data }, null, 2)}</pre>
-          <div>
-            <a href={signInUrl}>{signInUrl}</a>
-          </div>
-        </div>
+        <Header isSigned={isSigned} signInUrl={signInUrl} />
         <div className="flex-1">{children}</div>
       </div>
     </>

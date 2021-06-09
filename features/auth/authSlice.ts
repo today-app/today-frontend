@@ -28,6 +28,9 @@ const reducers = {
   loadAccessTokenFail: (state: AuthState, { payload }: PayloadAction<any>) => {
     state.isLoading = false
   },
+  clearUserData: (state: AuthState, _payload: any) => {
+    state.data = null
+  },
 }
 
 export const authSlice = createSlice({
@@ -38,4 +41,5 @@ export const authSlice = createSlice({
 
 export default authSlice.reducer
 
-export const { loadAccessToken, loadAccessTokenSuccess, loadAccessTokenFail } = authSlice.actions
+export const { loadAccessToken, loadAccessTokenSuccess, loadAccessTokenFail, clearUserData } =
+  authSlice.actions
