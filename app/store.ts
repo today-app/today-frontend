@@ -4,6 +4,7 @@ import {
   combineReducers,
   configureStore,
   getDefaultMiddleware,
+  Reducer,
   ThunkAction,
 } from '@reduxjs/toolkit'
 import { createRouterMiddleware, initialRouterState, routerReducer } from 'connected-next-router'
@@ -18,6 +19,7 @@ import { imageGridSlice } from './../features/imageGrid/imageGridSlice'
 import logger from 'redux-logger'
 import { watchFetchAccessToken } from 'features/auth/saga'
 import { authSlice } from 'features/auth/authSlice'
+import thunkMiddleware from 'redux-thunk'
 
 const combinedReducer = combineReducers({
   counter: counterReducer,
@@ -32,13 +34,13 @@ function* rootSaga() {
   yield all([watchImageLoad(), watchFetchAccessToken()])
 }
 
-const rootReducer = (state, action) => {
+const rootReducer = (state: AppState, action: AnyAction) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state,
       ...action.payload,
     }
-    if (state.counter.count) nextState.counter.count = state.counter.count
+    if (state.counter.value) nextState.counter.value = state.counter.value
     if (typeof window !== 'undefined' && state?.router) {
       nextState.router = state.router
     }
@@ -63,8 +65,9 @@ const makeStore: MakeStore = (context: Context) => {
   const isServer = typeof window === 'undefined'
   if (isServer) {
     const store = configureStore({
-      reducer: rootReducer,
-      middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
+      reducer: rootReducer as Reducer,
+      // middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
+      middleware: [thunkMiddleware, ...middlewares],
       preloadedState: initialState,
     })
 
@@ -84,7 +87,8 @@ const makeStore: MakeStore = (context: Context) => {
 
   const store = configureStore({
     reducer: persistedReducer,
-    middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
+    // middleware: [...getDefaultMiddleware({ thunk: true }), ...middlewares],
+    middleware: [thunkMiddleware, ...middlewares],
     preloadedState: initialState,
   })
   // @ts-ignore
@@ -94,7 +98,7 @@ const makeStore: MakeStore = (context: Context) => {
   return store
 }
 
-export type AppState = ReturnType<typeof rootReducer>
+export type AppState = ReturnType<typeof combinedReducer>
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action<string>>
 

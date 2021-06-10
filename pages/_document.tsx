@@ -21,6 +21,7 @@ class MyDocument extends Document {
   }
 
   render() {
+    // @ts-ignore
     const { config } = this.props
     const setConfigScript = `window.__PUBLIC_CONFIG__ = ${JSON.stringify(config)}`
 

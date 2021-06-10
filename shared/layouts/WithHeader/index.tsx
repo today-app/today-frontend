@@ -3,7 +3,7 @@ import { useAuth } from 'shared/contexts/Auth'
 import Header from '../../../components/Header'
 
 const WithHeader: FC<any> = ({ children }) => {
-  const { isSigned, signInUrl, data } = useAuth()
+  const { isSigned, signInUrl } = useAuth()
 
   return (
     <>

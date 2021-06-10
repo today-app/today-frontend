@@ -17,3 +17,7 @@ declare interface IPublicConfig {
   oauthClientId: string
   apiEndpoint: string
 }
+
+declare interface ServerRuntimeConfig {
+  projectIniConfig: string
+}

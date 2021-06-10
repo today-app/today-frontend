@@ -70,14 +70,21 @@ export default function Home() {
 
           <Link href="/another">another page</Link>
           <hr />
-          <a
-            href="/another"
-            onClick={e => {
-              e.preventDefault()
-              dispatch(push({ pathname: '/another', query: { foo: 'bar' } }))
-            }}>
-            Push /about
-          </a>
+          <ul>
+            <li>
+              <a
+                href="/another"
+                onClick={e => {
+                  e.preventDefault()
+                  dispatch(push({ pathname: '/another', query: { foo: 'bar' } }))
+                }}>
+                goto /another using connected-next-router
+              </a>
+            </li>
+            <li>
+              <Link href="/a">/a</Link>
+            </li>
+          </ul>
 
           <div className={styles.grid}>
             <a href="https://nextjs.org/docs" className={styles.card}>

@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 // import { clearProfile } from 'stores/auth'
 
 const OauthLogout: NextPage = () => {
-  const router = useRouter()
   const dispatch = useDispatch()
   const revokeToken = useCallback(async () => {
     const accessToken = localStorage.getItem('access_token')
@@ -24,7 +23,6 @@ const OauthLogout: NextPage = () => {
           localStorage.removeItem('refresh_token')
           dispatch(clearUserData())
           dispatch(push({ pathname: '/' }))
-          // await router.push('/')
         }
       })
   }, [])

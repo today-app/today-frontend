@@ -28,7 +28,7 @@ const reducers = {
   loadAccessTokenFail: (state: AuthState, { payload }: PayloadAction<any>) => {
     state.isLoading = false
   },
-  clearUserData: (state: AuthState, _payload: any) => {
+  clearUserData: (state: AuthState) => {
     state.data = null
   },
 }
