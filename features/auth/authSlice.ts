@@ -1,34 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IAuthState } from './types'
 
-export interface AuthState {
-  isLoading: boolean
-  data: any
-  error: string | null
-}
-
-export interface LoadAccessTokenPayload {
-  code: string
-}
-
-const initialState: AuthState = {
+const initialState: IAuthState = {
   isLoading: false,
   data: null,
   error: null,
 }
 
 const reducers = {
-  loadAccessToken: (state: AuthState, _payload: any) => {
+  loadAccessToken(state: IAuthState) {
     state.isLoading = true
   },
-  loadAccessTokenSuccess: (state: AuthState, { payload: tokenData }: PayloadAction<any>) => {
+  loadAccessTokenSuccess(state: IAuthState, { payload: tokenData }: PayloadAction<any>) {
     state.isLoading = false
     state.data = tokenData
-    console.log({ tokenData })
   },
-  loadAccessTokenFail: (state: AuthState, { payload }: PayloadAction<any>) => {
+  loadAccessTokenFail(state: IAuthState, { payload: error }: PayloadAction<string>) {
     state.isLoading = false
+    state.error = error
   },
-  clearUserData: (state: AuthState) => {
+  clearUserData(state: IAuthState) {
     state.data = null
   },
 }

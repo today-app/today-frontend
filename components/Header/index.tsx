@@ -43,6 +43,28 @@ const Header: FC<HeaderProps> = ({ isSigned, signInUrl }) => {
                       Home
                     </a>
                   </div>
+                  <div className="relative">
+                    <a
+                      href="#"
+                      onClick={async e => {
+                        e.preventDefault()
+                        await router.push('/feed')
+                      }}
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 pt-2 pb-2.5 rounded-md text-sm font-medium">
+                      Feed
+                    </a>
+                  </div>
+                  <div className="relative">
+                    <a
+                      href="#"
+                      onClick={async e => {
+                        e.preventDefault()
+                        await router.push('/questions')
+                      }}
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 pt-2 pb-2.5 rounded-md text-sm font-medium">
+                      Questions
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,6 +202,20 @@ const Header: FC<HeaderProps> = ({ isSigned, signInUrl }) => {
               href="#"
               className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
               Home
+            </a>
+          </div>
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <a
+              href="#"
+              className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
+              Feed
+            </a>
+          </div>
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <a
+              href="#"
+              className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
+              Questions
             </a>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-700">

@@ -15,23 +15,27 @@ import Router from 'next/router'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 import counterReducer from '../features/counter/counterSlice'
-import { imageGridSlice } from './../features/imageGrid/imageGridSlice'
+import { imageGridSlice } from '../features/imageGrid/imageGridSlice'
 import logger from 'redux-logger'
 import { watchFetchAccessToken } from 'features/auth/saga'
 import { authSlice } from 'features/auth/authSlice'
 import thunkMiddleware from 'redux-thunk'
+import { postSlice } from '../features/post/postSlice'
+import { watchFetchPublicFeed } from '../features/post/postSaga'
 
 const combinedReducer = combineReducers({
   counter: counterReducer,
   router: routerReducer,
   [authSlice.name]: authSlice.reducer,
+  [postSlice.name]: postSlice.reducer,
   [imageGridSlice.name]: imageGridSlice.reducer,
 })
 
 const sagaMiddleware = createSagaMiddleware()
 
 function* rootSaga() {
-  yield all([watchImageLoad(), watchFetchAccessToken()])
+  yield all([watchImageLoad(), watchFetchAccessToken(),
+  watchFetchPublicFeed()])
 }
 
 const rootReducer = (state: AppState, action: AnyAction) => {
@@ -40,7 +44,6 @@ const rootReducer = (state: AppState, action: AnyAction) => {
       ...state,
       ...action.payload,
     }
-    if (state.counter.value) nextState.counter.value = state.counter.value
     if (typeof window !== 'undefined' && state?.router) {
       nextState.router = state.router
     }
@@ -81,7 +84,7 @@ const makeStore: MakeStore = (context: Context) => {
   const persistConfig = {
     key: 'todayAppPersistStore',
     storage,
-    whitelist: ['auth'],
+    whitelist: ['auth', 'counter'],
   }
   const persistedReducer = persistReducer(persistConfig, rootReducer)
 
